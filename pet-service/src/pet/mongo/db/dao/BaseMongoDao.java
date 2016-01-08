@@ -5,9 +5,6 @@ import java.util.List;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Key;
 import org.mongodb.morphia.query.Query;
-import org.mongodb.morphia.query.QueryFactory;
-
-import com.mongodb.QueryBuilder;
 
 import pet.mongo.morphia.db.MorphiaDS;
 
@@ -65,5 +62,8 @@ public class BaseMongoDao<MODEL> {
 		return (List<MODEL>) ds.createQuery(classe).filter(filter, value).asList();
 	}
 	
+	public int delete(MODEL model){
+		return ds.delete(model).getN();
+	}
 	
 }

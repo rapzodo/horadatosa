@@ -5,6 +5,8 @@ import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
+import org.mongodb.morphia.Key;
+
 import pet.mongo.db.dao.BaseMongoDao;
 import pet.mongo.db.factory.DaoFactory;
 import pet.mongo.morphia.entities.PetShop;
@@ -26,8 +28,11 @@ public class PetShopSessionBean {
 		return dao.listAll();
 	}
 	
-	public void save(PetShop petshop){
-		dao.save(petshop);
+	public Key<PetShop> save(PetShop petshop){
+		 return dao.save(petshop);
 	}
 
+	public int delete(PetShop petshop){
+		return dao.delete(petshop);
+	}
 }

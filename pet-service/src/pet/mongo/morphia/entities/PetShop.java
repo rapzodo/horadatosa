@@ -17,7 +17,7 @@ public class PetShop {
 	@Id
 	private String cnpj;
 	private String razaoSocial;
-	private Date dataCadastro;
+	private Date dataCadastro = new Date();
 	@Reference(lazy=true,idOnly=true)
 	private List<Usuario> clientes;
 	
