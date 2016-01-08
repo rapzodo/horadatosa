@@ -1,4 +1,4 @@
-package pet.business.petshops;
+package pet.ejb.petshops;
 
 import java.util.List;
 
@@ -24,6 +24,10 @@ public class PetShopSessionBean {
  	
 	public List<PetShop> getAllPetshops(){
 		return dao.listAll();
+	}
+	
+	public void save(PetShop petshop){
+		dao.save(petshop);
 	}
 
 }
