@@ -58,6 +58,10 @@ public class BaseMongoDao<MODEL> {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public List<MODEL> getModelByfield(String fieldName,String value){
+		return (List<MODEL>) ds.createQuery(classe).field(fieldName).endsWithIgnoreCase(value).asList();
+	}
+	@SuppressWarnings("unchecked")
 	public List<MODEL> getModelByFilter(String filter,String value){
 		return (List<MODEL>) ds.createQuery(classe).filter(filter, value).asList();
 	}

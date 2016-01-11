@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 
 import org.mongodb.morphia.Key;
 
+import pet.constants.QueriesConstants;
 import pet.mongo.db.dao.BaseMongoDao;
 import pet.mongo.db.factory.DaoFactory;
 import pet.mongo.morphia.entities.PetShop;
@@ -32,6 +33,14 @@ public class PetShopSessionBean {
 		 return dao.save(petshop);
 	}
 
+	public List<PetShop> getByCpfCnpj(String cpfCnpj){
+		return dao.getModelByfield(QueriesConstants.CNPJ_CPF_FIELD, cpfCnpj);
+	}
+	
+	public List<PetShop> getByRazaoSocial(String razaoSocial){
+		return dao.getModelByfield(QueriesConstants.RAZAO_SOCIAL_FIELD, razaoSocial);
+	}
+	
 	public int delete(PetShop petshop){
 		return dao.delete(petshop);
 	}

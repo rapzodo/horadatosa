@@ -3,6 +3,7 @@ package pet.mongo.morphia.entities;
 import java.util.Date;
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Field;
 import org.mongodb.morphia.annotations.Id;
@@ -11,10 +12,12 @@ import org.mongodb.morphia.annotations.Indexes;
 import org.mongodb.morphia.annotations.Reference;
 import org.mongodb.morphia.utils.IndexType;
 
-@Entity("petshops")
+@Entity(noClassnameStored=true,value="petshops")
 @Indexes(@Index(fields={@Field(value="cnpj"),@Field(value="dataCadastro", type=IndexType.DESC)}))
 public class PetShop {
+	
 	@Id
+	private ObjectId id;
 	private String cnpj;
 	private String razaoSocial;
 	private Date dataCadastro = new Date();
