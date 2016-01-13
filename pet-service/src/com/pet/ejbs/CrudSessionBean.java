@@ -9,11 +9,8 @@ import javax.ejb.Stateless;
 
 import org.mongodb.morphia.Key;
 
-import com.pet.constants.QueriesConstants;
 import com.pet.mongo.db.dao.BaseMongoDao;
-import com.pet.mongo.db.factory.DaoFactory;
-import com.pet.mongo.morphia.entities.PetShop;
-import com.pet.mongo.morphia.entities.Usuario;
+import com.pet.mongo.morphia.entities.DomainSuperClass;
 
 /**
  * Session Bean implementation class PetShopSessionBean
@@ -22,9 +19,9 @@ import com.pet.mongo.morphia.entities.Usuario;
 @LocalBean
 public class CrudSessionBean{
 	
-	private BaseMongoDao<PetShop> dao = new DaoFactory<PetShop>().getDao(PetShop.class);
 	@EJB
 	private UsuarioSessionBean userBean;
+	private BaseMongoDao<DomainSuperClass> dao;
     /**
      * Default constructor. 
      */
@@ -32,42 +29,21 @@ public class CrudSessionBean{
     	
 	}
  	
-	public List<?> listAll(BaseMongoDao<?> dao){
+	public List<DomainSuperClass> listAll(BaseMongoDao<DomainSuperClass> dao){
 		return dao.listAll();
 	}
 	
-	public Key<?> save(BaseMongoDao<?> dao, Object object){
-		petshop.set_id(dao.getCounterSeq());
-		return dao.save(petshop);
+	public Key<DomainSuperClass> save(BaseMongoDao<DomainSuperClass> dao, DomainSuperClass domain){
+		domain.set_id(dao.getCounterSeq());
+		return dao.save(domain);
 	}
 	
-	public Key<PetShop> saveClientesPetshop(Usuario usuario, PetShop petshop){
-		Key<Usuario> result = userBean.save(usuario);
-		if(result != null){
-			petshop.getClientes().add(usuario);
-		}
-		return dao.save(petshop);
-	}
-
-	public List<PetShop> getByCpfCnpj(String cpfCnpj){
-		return dao.getModelByfield(QueriesConstants.CNPJ_CPF_FIELD, cpfCnpj);
-	}
-	
-	public List<PetShop> getByRazaoSocial(String razaoSocial){
-		return dao.getModelByfield(QueriesConstants.RAZAO_SOCIAL_FIELD, razaoSocial);
-	}
-	public List<PetShop> getByRegex(String field,String value){
+	public List<DomainSuperClass> getByRegex(BaseMongoDao<DomainSuperClass> dao,String field,String value){
 		Pattern pattern = Pattern.compile(value, Pattern.CASE_INSENSITIVE);
 		return dao.getModelByFilter(field, pattern);
 	}
 	
-	@Override
-	public PetShop getById(String id) {
-		return dao.getById(id);
-	}
-
-	@Override
-	public int delete(String id) {
+	public int delete(BaseMongoDao<DomainSuperClass> dao,String id) {
 		return dao.delete(id);
 	}
 

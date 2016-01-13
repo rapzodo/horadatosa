@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Field;
-import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Index;
 import org.mongodb.morphia.annotations.Indexes;
 import org.mongodb.morphia.annotations.Reference;
@@ -13,10 +12,8 @@ import org.mongodb.morphia.utils.IndexType;
 
 @Entity(noClassnameStored=true,value="petshops")
 @Indexes(@Index(fields={@Field(value="cnpj"),@Field(value="dataCadastro", type=IndexType.DESC)}))
-public class PetShop {
+public class PetShop extends DomainSuperClass{
 	
-	@Id
-	private long _id;
 	private String cpfCnpj;
 	private String razaoSocial;
 	private Date dataCadastro = new Date();
@@ -27,12 +24,6 @@ public class PetShop {
 	private List<Servico> servicos;
 	private Endereco endereco;
 	
-	public long get_id() {
-		return _id;
-	}
-	public void set_id(long _id) {
-		this._id = _id;
-	}
 	public String getRazaoSocial() {
 		return razaoSocial;
 	}

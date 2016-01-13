@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Field;
-import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Index;
 import org.mongodb.morphia.annotations.Indexes;
 import org.mongodb.morphia.annotations.Reference;
@@ -13,22 +12,14 @@ import org.mongodb.morphia.utils.IndexType;
 
 @Entity(value="usuarios",noClassnameStored=true)
 @Indexes(@Index(fields={@Field(value="nome"),@Field(value="dataCadastro", type=IndexType.DESC)}))
-public class Usuario {
+public class Usuario extends DomainSuperClass{
 
-	@Id
-	private long _id;
 	private String emailId;
 	private String nome;
 	private Date dataCadastro;
 	@Reference(lazy=true)
 	private List<PetShop> petShops;
 	
-	public long get_id() {
-		return _id;
-	}
-	public void set_id(long _id) {
-		this._id = _id;
-	}
 	public Date getDataCadastro() {
 		return dataCadastro;
 	}
