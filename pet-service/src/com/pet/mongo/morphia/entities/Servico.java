@@ -1,7 +1,6 @@
 package com.pet.mongo.morphia.entities;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Field;
@@ -11,12 +10,12 @@ import org.mongodb.morphia.annotations.Indexes;
 import org.mongodb.morphia.annotations.Reference;
 import org.mongodb.morphia.utils.IndexType;
 
-@Entity("servicos")
+@Entity(value="servicos",noClassnameStored=true)
 @Indexes(@Index(fields={@Field(value="_id"),@Field(value="codigo"),@Field(value="preco", type=IndexType.ASC)}))
 public class Servico {
 
 	@Id
-	private long _id = UUID.randomUUID().getMostSignificantBits();
+	private long _id;
 	private String categoria;
 	private String descricao;
 	private String codigo;

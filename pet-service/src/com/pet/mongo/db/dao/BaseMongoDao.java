@@ -5,8 +5,9 @@ import java.util.List;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Key;
 import org.mongodb.morphia.query.Query;
-
+import org.mongodb.morphia.query.UpdateOperations;
 import com.pet.mongo.morphia.db.MorphiaDS;
+import com.pet.mongo.morphia.entities.Sequence;
 
 
 public class BaseMongoDao<MODEL> {
@@ -25,10 +26,18 @@ public class BaseMongoDao<MODEL> {
 	public Key<MODEL> save(MODEL model){
 		return ds.save(model);
 	}
+
+	public long getCounterSeq() {
+		UpdateOperations<Sequence> inc = ds.createUpdateOperations(Sequence.class).inc("counter", 1);
+		Query<Sequence> query = ds.createQuery(Sequence.class).field("_id").equal("userId");
+		Sequence counter = ds.findAndModify(query, inc, true);
+		return counter.getCounter();
+	}
 	
 	@SuppressWarnings("unchecked")
 	public MODEL getById(String id){
-		return (MODEL) ds.createQuery(classe).field("_id").equal(id).get();
+		long _id = Long.valueOf(id);
+		return (MODEL) ds.createQuery(classe).field("_id").equal(_id).get();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -71,7 +80,8 @@ public class BaseMongoDao<MODEL> {
 		return (List<MODEL>) ds.createQuery(classe).filter(filter, value).asList();
 	}
 	
-	public int delete(MODEL model){
+	public int delete(String id){
+		MODEL model = getById(id);
 		return ds.delete(model).getN();
 	}
 	

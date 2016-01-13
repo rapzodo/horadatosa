@@ -36,7 +36,8 @@ public class PetShopSessionBean implements BasicCrudSBean<PetShop>{
 	}
 	
 	public Key<PetShop> save(PetShop petshop){
-		 return petDao.save(petshop);
+		petshop.set_id(petDao.getCounterSeq());
+		return petDao.save(petshop);
 	}
 	
 	public Key<PetShop> saveClientesPetshop(Usuario usuario, PetShop petshop){
@@ -59,13 +60,14 @@ public class PetShopSessionBean implements BasicCrudSBean<PetShop>{
 		return petDao.getModelByFilter(field, pattern);
 	}
 	
-	public int delete(PetShop petshop){
-		return petDao.delete(petshop);
-	}
-
 	@Override
 	public PetShop getById(String id) {
 		return petDao.getById(id);
+	}
+
+	@Override
+	public int delete(String id) {
+		return petDao.delete(id);
 	}
 
 }
