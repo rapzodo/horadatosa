@@ -14,46 +14,38 @@ import javax.ws.rs.core.MediaType;
 import org.mongodb.morphia.Key;
 
 import com.pet.constants.DBConstants;
-import com.pet.ejbs.PetShopSessionBean;
-import com.pet.mongo.morphia.entities.PetShop;
+import com.pet.ejbs.UsuarioSessionBean;
+import com.pet.mongo.morphia.entities.Usuario;
 
-@Path("/petshops")
-public class PetShopService {
-
+@Path("/usuarios")
+public class UsuariosCRUDService{
+	
 	@EJB
-	private PetShopSessionBean sBean;
+	protected UsuarioSessionBean uBean;
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<PetShop> getAll(){
-		return sBean.listAll();
+	public List<Usuario> getAll(){
+		return uBean.listAll();
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("regex/{field}/{regex}")
-	public List<PetShop> getByLike(@PathParam("field")String field, @PathParam("regex")String regex){
-		return sBean.getByRegex(field, regex);
+	public List<Usuario> getByLike(@PathParam("field")String field, @PathParam("regex")String regex){
+		return uBean.getByRegex(field, regex);
 	}
 	
 	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String save(PetShop petshop){
-		Key<PetShop> key = sBean.save(petshop);
+	public String save(Usuario usuario){
+		Key<Usuario> key = uBean.save(usuario);
 		if(key != null){
 			return key.getId().toString();
 		}
 		return DBConstants.FAIL_MESSAGE;
-	}
-	
-	@Path("remove")
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.TEXT_PLAIN)
-	public int delete(PetShop petshop){
-		return sBean.delete(petshop);
 	}
 	
 }
