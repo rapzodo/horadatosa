@@ -16,7 +16,6 @@ public class MorphiaDS {
 	}
 	
 	public void config(){
-		System.out.println("Starting Morphia");
 		morphia.mapPackage(DBConstants.ENTITIES_PKG);
 		ds = morphia.createDatastore(new MongoClient(), DBConstants.DB_NAME);
 		ds.ensureIndexes();

@@ -17,43 +17,43 @@ import com.pet.ejbs.CrudSessionBean;
 import com.pet.mongo.db.dao.BaseMongoDao;
 import com.pet.mongo.db.factory.DaoFactory;
 import com.pet.mongo.morphia.entities.DomainSuperClass;
-import com.pet.mongo.morphia.entities.PetShop;
+import com.pet.mongo.morphia.entities.Usuario;
 
 @SuppressWarnings("unchecked")
-@Path("/petshops")
-public class PetShopCRUDService{
+@Path("/usuarios")
+public class UsuarioCRUDService{
 	
 	@EJB
 	protected CrudSessionBean bean;
-	private BaseMongoDao<DomainSuperClass> dao= new DaoFactory<DomainSuperClass>().getDao(PetShop.class);
+	private BaseMongoDao<DomainSuperClass> dao= new DaoFactory<DomainSuperClass>().getDao(Usuario.class);
 	
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<PetShop> getAll(){
-		return (List<PetShop>) bean.listAll(dao);
+	public List<Usuario> getAll(){
+		return (List<Usuario>) bean.listAll(dao);
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("regex/{field}/{regex}")
-	public List<PetShop> getByRegex(@PathParam("field")String field, @PathParam("regex")String regex){
-		return (List<PetShop>) bean.getByRegex(dao,field, regex);
+	public List<Usuario> getByRegex(@PathParam("field")String field, @PathParam("regex")String regex){
+		return (List<Usuario>) bean.getByRegex(dao,field, regex);
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{id}")
-	public PetShop getById(@PathParam("id") String id){
-		return (PetShop) bean.getById(dao,id);
+	public Usuario getById(@PathParam("id") String id){
+		return (Usuario) bean.getById(dao,id);
 	}
 	
 	@Path("createUpdate")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response save(PetShop petshop){
-		return Response.ok(bean.saveOrUpdate(dao,petshop)).build();
+	public Response save(Usuario Usuario){
+		return Response.ok(bean.saveOrUpdate(dao,Usuario)).build();
 	}
 	
 	@Path("remove/{id}")

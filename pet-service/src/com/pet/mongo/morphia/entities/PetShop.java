@@ -11,7 +11,7 @@ import org.mongodb.morphia.annotations.Reference;
 import org.mongodb.morphia.utils.IndexType;
 
 @Entity(noClassnameStored=true,value="petshops")
-@Indexes(@Index(fields={@Field(value="cnpj"),@Field(value="dataCadastro", type=IndexType.DESC)}))
+@Indexes(@Index(fields={@Field(value="_id"),@Field(value="cnpj"),@Field(value="dataCadastro", type=IndexType.DESC)}))
 public class PetShop extends DomainSuperClass{
 	
 	private String cpfCnpj;

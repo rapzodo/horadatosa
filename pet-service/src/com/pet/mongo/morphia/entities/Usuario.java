@@ -11,26 +11,20 @@ import org.mongodb.morphia.annotations.Reference;
 import org.mongodb.morphia.utils.IndexType;
 
 @Entity(value="usuarios",noClassnameStored=true)
-@Indexes(@Index(fields={@Field(value="nome"),@Field(value="dataCadastro", type=IndexType.DESC)}))
+@Indexes(@Index(fields={@Field(value="_id"),@Field(value="nome"),@Field(value="dataCadastro", type=IndexType.DESC)}))
 public class Usuario extends DomainSuperClass{
 
 	private String emailId;
 	private String nome;
 	private Date dataCadastro;
-	@Reference(lazy=true)
-	private List<PetShop> petShops;
+	@Reference(idOnly=true,lazy=true)
+	private List<Pet> pets;
 	
 	public Date getDataCadastro() {
 		return dataCadastro;
 	}
 	public void setDataCadastro(Date dataCadastro) {
 		this.dataCadastro = dataCadastro;
-	}
-	public List<PetShop> getPetShops() {
-		return petShops;
-	}
-	public void setPetShops(List<PetShop> petShops) {
-		this.petShops = petShops;
 	}
 	public String getEmailId() {
 		return emailId;

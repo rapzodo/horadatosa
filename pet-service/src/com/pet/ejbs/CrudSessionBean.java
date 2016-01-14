@@ -3,11 +3,8 @@ package com.pet.ejbs;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-
-import org.mongodb.morphia.Key;
 
 import com.pet.mongo.db.dao.BaseMongoDao;
 import com.pet.mongo.morphia.entities.DomainSuperClass;
@@ -19,9 +16,6 @@ import com.pet.mongo.morphia.entities.DomainSuperClass;
 @LocalBean
 public class CrudSessionBean{
 	
-	@EJB
-	private UsuarioSessionBean userBean;
-	private BaseMongoDao<DomainSuperClass> dao;
     /**
      * Default constructor. 
      */
@@ -29,16 +23,19 @@ public class CrudSessionBean{
     	
 	}
  	
-	public List<DomainSuperClass> listAll(BaseMongoDao<DomainSuperClass> dao){
+	public List<?> listAll(BaseMongoDao<DomainSuperClass> dao){
 		return dao.listAll();
 	}
 	
-	public Key<DomainSuperClass> save(BaseMongoDao<DomainSuperClass> dao, DomainSuperClass domain){
-		domain.set_id(dao.getCounterSeq());
+	public long saveOrUpdate(BaseMongoDao<DomainSuperClass> dao, DomainSuperClass domain){
+		String id = String.valueOf(domain.get_id());
+		if(dao.getById(id) == null){
+			domain.set_id(dao.getCounterSeq());
+		}
 		return dao.save(domain);
 	}
 	
-	public List<DomainSuperClass> getByRegex(BaseMongoDao<DomainSuperClass> dao,String field,String value){
+	public List<?> getByRegex(BaseMongoDao<DomainSuperClass> dao,String field,String value){
 		Pattern pattern = Pattern.compile(value, Pattern.CASE_INSENSITIVE);
 		return dao.getModelByFilter(field, pattern);
 	}
@@ -47,4 +44,8 @@ public class CrudSessionBean{
 		return dao.delete(id);
 	}
 
+	
+	public DomainSuperClass getById(BaseMongoDao<DomainSuperClass> dao, String _id){
+		return dao.getById(_id);
+	}
 }

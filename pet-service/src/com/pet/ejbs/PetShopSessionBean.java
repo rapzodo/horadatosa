@@ -20,7 +20,7 @@ import com.pet.mongo.morphia.entities.Usuario;
  */
 @Stateless
 @LocalBean
-public class PetShopSessionBean implements BasicCrudSBean<PetShop>{
+public class PetShopSessionBean {
 	private BaseMongoDao<PetShop> petDao = new DaoFactory<PetShop>().getDao(PetShop.class);
 	@EJB
 	private UsuarioSessionBean userBean;
@@ -35,12 +35,12 @@ public class PetShopSessionBean implements BasicCrudSBean<PetShop>{
 		return petDao.listAll();
 	}
 	
-	public Key<PetShop> save(PetShop petshop){
+	public long save(PetShop petshop){
 		petshop.set_id(petDao.getCounterSeq());
 		return petDao.save(petshop);
 	}
 	
-	public Key<PetShop> saveClientesPetshop(Usuario usuario, PetShop petshop){
+	public long saveClientesPetshop(Usuario usuario, PetShop petshop){
 		Key<Usuario> result = userBean.save(usuario);
 		if(result != null){
 			petshop.getClientes().add(usuario);
@@ -60,12 +60,10 @@ public class PetShopSessionBean implements BasicCrudSBean<PetShop>{
 		return petDao.getModelByFilter(field, pattern);
 	}
 	
-	@Override
 	public PetShop getById(String id) {
 		return petDao.getById(id);
 	}
 
-	@Override
 	public int delete(String id) {
 		return petDao.delete(id);
 	}
