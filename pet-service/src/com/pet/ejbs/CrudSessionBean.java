@@ -3,7 +3,6 @@ package com.pet.ejbs;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
@@ -19,9 +18,6 @@ import com.pet.mongo.morphia.entities.DomainSuperClass;
 @LocalBean
 public class CrudSessionBean{
 	
-	@EJB
-	private UsuarioSessionBean userBean;
-	private BaseMongoDao<DomainSuperClass> dao;
     /**
      * Default constructor. 
      */
@@ -29,16 +25,16 @@ public class CrudSessionBean{
     	
 	}
  	
-	public List<DomainSuperClass> listAll(BaseMongoDao<DomainSuperClass> dao){
+	public List<?> listAll(BaseMongoDao<DomainSuperClass> dao){
 		return dao.listAll();
 	}
 	
-	public Key<DomainSuperClass> save(BaseMongoDao<DomainSuperClass> dao, DomainSuperClass domain){
+	public Key<?> save(BaseMongoDao<DomainSuperClass> dao, DomainSuperClass domain){
 		domain.set_id(dao.getCounterSeq());
 		return dao.save(domain);
 	}
 	
-	public List<DomainSuperClass> getByRegex(BaseMongoDao<DomainSuperClass> dao,String field,String value){
+	public List<?> getByRegex(BaseMongoDao<DomainSuperClass> dao,String field,String value){
 		Pattern pattern = Pattern.compile(value, Pattern.CASE_INSENSITIVE);
 		return dao.getModelByFilter(field, pattern);
 	}

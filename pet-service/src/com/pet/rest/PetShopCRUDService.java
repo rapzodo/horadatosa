@@ -15,26 +15,33 @@ import javax.ws.rs.core.Response;
 import org.mongodb.morphia.Key;
 
 import com.pet.constants.DBConstants;
+import com.pet.ejbs.CrudSessionBean;
 import com.pet.ejbs.PetShopSessionBean;
+import com.pet.mongo.db.dao.BaseMongoDao;
+import com.pet.mongo.db.factory.DaoFactory;
+import com.pet.mongo.morphia.entities.DomainSuperClass;
 import com.pet.mongo.morphia.entities.PetShop;
 
+@SuppressWarnings("unchecked")
 @Path("/petshops")
 public class PetShopCRUDService{
 	
 	@EJB
-	protected PetShopSessionBean petBean;
-
+	protected CrudSessionBean bean;
+	private BaseMongoDao<DomainSuperClass> dao= new DaoFactory<DomainSuperClass>().getDao(PetShop.class);
+	
+	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<PetShop> getAll(){
-		return petBean.listAll();
+		return (List<PetShop>) bean.listAll(dao);
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("regex/{field}/{regex}")
 	public List<PetShop> getByLike(@PathParam("field")String field, @PathParam("regex")String regex){
-		return petBean.getByRegex(field, regex);
+		return (List<PetShop>) bean.getByRegex(dao,field, regex);
 	}
 	
 	@Path("create")
@@ -42,7 +49,7 @@ public class PetShopCRUDService{
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public String save(PetShop petshop){
-		Key<PetShop> key = petBean.save(petshop);
+		Key<PetShop> key = (Key<PetShop>) bean.save(dao,petshop);
 		if(key != null){
 			return key.getId().toString();
 		}
@@ -54,7 +61,7 @@ public class PetShopCRUDService{
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response delete(@PathParam("id") String id){
 		String message = DBConstants.FAIL_MESSAGE;
-		if(petBean.delete(id) > 0){
+		if(bean.delete(dao,id) > 0){
 			message = DBConstants.SUCCESS_DELETED;
 		}
 		return Response.ok(message).build();
