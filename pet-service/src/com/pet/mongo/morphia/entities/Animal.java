@@ -8,9 +8,9 @@ import org.mongodb.morphia.annotations.Index;
 import org.mongodb.morphia.annotations.Indexes;
 import org.mongodb.morphia.annotations.Reference;
 
-@Entity(value="usuarios",noClassnameStored=true)
+@Entity(value="animais",noClassnameStored=true)
 @Indexes(@Index(fields={@Field(value="_id"),@Field(value="nome"),@Field(value="raca")}))
-public class Pet extends DomainSuperClass {
+public class Animal extends DomainSuperClass {
 	
 	private String nome;
 	private String tipo;

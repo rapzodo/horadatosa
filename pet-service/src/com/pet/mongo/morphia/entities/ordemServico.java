@@ -11,10 +11,19 @@ import org.mongodb.morphia.annotations.Property;
 import org.mongodb.morphia.annotations.Reference;
 import org.mongodb.morphia.utils.IndexType;
 
-@Entity(value="usuarios",noClassnameStored=true)
+@Entity(value="pedidos",noClassnameStored=true)
 @Indexes(@Index(fields={@Field(value="_id"),@Field(value="nome"),@Field(value="raca"),@Field(value="dataServico", type=IndexType.DESC)}))
 public class ordemServico extends DomainSuperClass {
 	
+	@Reference
+	private PetShop petShop;
+	@Property("itens")
+	@Reference(idOnly=true, lazy=true)
+	private List<Servico> servicosPrestados;
+	@Property("realizadoEm")
+	private Date dataServico;
+	@Property("agendadoPara")
+	private Date dataAgendamento;
 	@Reference
 	private Usuario cliente;
 	
@@ -30,12 +39,6 @@ public class ordemServico extends DomainSuperClass {
 	public void setPetShop(PetShop petShop) {
 		this.petShop = petShop;
 	}
-	public double getValorServico() {
-		return valorServico;
-	}
-	public void setValorServico(double valorServico) {
-		this.valorServico = valorServico;
-	}
 	public List<Servico> getServicosPrestados() {
 		return servicosPrestados;
 	}
@@ -48,14 +51,6 @@ public class ordemServico extends DomainSuperClass {
 	public void setDataServico(Date dataServico) {
 		this.dataServico = dataServico;
 	}
-	@Reference
-	private PetShop petShop;
-	private double valorServico;
-	@Property("itens")
-	@Reference(idOnly=true, lazy=true)
-	private List<Servico> servicosPrestados;
-	@Property("realizadoEm")
-	private Date dataServico;
 	
 	
 }

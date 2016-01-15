@@ -1,5 +1,8 @@
 package com.pet.mongo.morphia.entities;
 
+import java.util.Date;
+import java.util.List;
+
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Field;
 import org.mongodb.morphia.annotations.Index;
@@ -14,6 +17,7 @@ public class Servico extends DomainSuperClass {
 	private String descricao;
 	private String codigo;
 	private int capacidade;
+	private List<Date> horariosDisponiveis;
 	private double preco;
 	
 	public String getCategoria() {
@@ -45,6 +49,12 @@ public class Servico extends DomainSuperClass {
 	}
 	public void setPreco(double preco) {
 		this.preco = preco;
+	}
+	public List<Date> getHorariosDisponiveis() {
+		return horariosDisponiveis;
+	}
+	public void setHorariosDisponiveis(List<Date> horariosDisponiveis) {
+		this.horariosDisponiveis = horariosDisponiveis;
 	}
 	
 }

@@ -18,7 +18,7 @@ public class Usuario extends DomainSuperClass{
 	private String nome;
 	private Date dataCadastro;
 	@Reference(idOnly=true,lazy=true)
-	private List<Pet> pets;
+	private List<Animal> pets;
 	
 	public Date getDataCadastro() {
 		return dataCadastro;

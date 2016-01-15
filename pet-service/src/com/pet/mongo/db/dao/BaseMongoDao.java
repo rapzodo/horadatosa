@@ -1,8 +1,12 @@
 package com.pet.mongo.db.dao;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.query.Criteria;
+import org.mongodb.morphia.query.CriteriaContainerImpl;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 
@@ -81,6 +85,16 @@ public class BaseMongoDao<MODEL> {
 
 	public long saveOrUpdate(DomainSuperClass domain) {
 		return save((MODEL)domain);
+	}
+	
+	public List<MODEL> getByComplexQueryAnd(Map<String, String> fieldValuePairs){
+		return null;
+	}
+	
+	public List<MODEL> getByDateRange(Date inDt, Date endDt){
+		return (List<MODEL>) ds.createQuery(classe)
+				.field("horariosDisponiveis").greaterThanOrEq(inDt)
+				.field("horariosDisponiveis").lessThanOrEq(endDt).asList();
 	}
 	
 }
