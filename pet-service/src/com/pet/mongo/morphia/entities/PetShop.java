@@ -1,6 +1,5 @@
 package com.pet.mongo.morphia.entities;
 
-import java.util.Date;
 import java.util.List;
 
 import org.mongodb.morphia.annotations.Entity;
@@ -16,7 +15,6 @@ public class PetShop extends DomainSuperClass{
 	
 	private String cpfCnpj;
 	private String razaoSocial;
-	private Date dataCadastro = new Date();
 	@Reference(lazy=true,idOnly=true)
 	private List<Usuario> clientes;
 	private boolean adimplente;
@@ -29,12 +27,6 @@ public class PetShop extends DomainSuperClass{
 	}
 	public void setRazaoSocial(String razaoSocial) {
 		this.razaoSocial = razaoSocial;
-	}
-	public Date getDataCadastro() {
-		return dataCadastro;
-	}
-	public void setDataCadastro(Date dataCadastro) {
-		this.dataCadastro = dataCadastro;
 	}
 	public List<Usuario> getClientes() {
 		return clientes;

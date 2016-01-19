@@ -1,7 +1,5 @@
 package com.pet.mongo.morphia.entities;
 
-import java.util.List;
-
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Field;
 import org.mongodb.morphia.annotations.Index;
@@ -15,7 +13,7 @@ public class Animal extends DomainSuperClass {
 	private String nome;
 	private String tipo;
 	private String raca;
-	private List<String> caracteristicas;
+	private Caracteristicas caracteristicas;
 	@Reference
 	private Usuario dono;
 	
@@ -37,10 +35,10 @@ public class Animal extends DomainSuperClass {
 	public void setRaca(String raca) {
 		this.raca = raca;
 	}
-	public List<String> getCaracteristicas() {
+	public Caracteristicas getCaracteristicas() {
 		return caracteristicas;
 	}
-	public void setCaracteristicas(List<String> caracteristicas) {
+	public void setCaracteristicas(Caracteristicas caracteristicas) {
 		this.caracteristicas = caracteristicas;
 	}
 	public Usuario getDono() {
@@ -49,7 +47,5 @@ public class Animal extends DomainSuperClass {
 	public void setDono(Usuario dono) {
 		this.dono = dono;
 	}
-	
-	
 
 }

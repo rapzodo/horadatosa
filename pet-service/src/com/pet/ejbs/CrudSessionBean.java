@@ -1,5 +1,7 @@
 package com.pet.ejbs;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -47,5 +49,10 @@ public class CrudSessionBean{
 	
 	public DomainSuperClass getById(BaseMongoDao<DomainSuperClass> dao, String _id){
 		return dao.getById(_id);
+	}
+
+	public void getPetShopsComHorario(BaseMongoDao<DomainSuperClass> dao, String serviceId, Date initDt,
+			Date finalDt) {
+		dao.getByDateRange(initDt, finalDt);
 	}
 }

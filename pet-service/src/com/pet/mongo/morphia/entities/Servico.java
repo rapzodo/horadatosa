@@ -7,6 +7,7 @@ import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Field;
 import org.mongodb.morphia.annotations.Index;
 import org.mongodb.morphia.annotations.Indexes;
+import org.mongodb.morphia.annotations.Reference;
 import org.mongodb.morphia.utils.IndexType;
 
 @Entity(value="servicos",noClassnameStored=true)
@@ -19,6 +20,8 @@ public class Servico extends DomainSuperClass {
 	private int capacidade;
 	private List<Date> horariosDisponiveis;
 	private double preco;
+	@Reference
+	private Animal animal;
 	
 	public String getCategoria() {
 		return categoria;

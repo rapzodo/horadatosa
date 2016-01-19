@@ -5,11 +5,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.mongodb.morphia.Datastore;
-import org.mongodb.morphia.query.Criteria;
-import org.mongodb.morphia.query.CriteriaContainerImpl;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 
+import com.pet.constants.QueriesConstants;
 import com.pet.mongo.morphia.db.MorphiaDS;
 import com.pet.mongo.morphia.entities.DomainSuperClass;
 import com.pet.mongo.morphia.entities.Sequence;
@@ -35,7 +34,8 @@ public class BaseMongoDao<MODEL> {
 
 	public long getCounterSeq() {
 		UpdateOperations<Sequence> inc = ds.createUpdateOperations(Sequence.class).inc("counter", 1);
-		Query<Sequence> query = ds.createQuery(Sequence.class).field("_id").equal("userId");
+		Query<Sequence> query = ds.createQuery(Sequence.class).field(QueriesConstants.ID_FIELD).
+				equal(classe.getSimpleName().toLowerCase()+QueriesConstants.SEQUENCE_SUFIX);
 		Sequence counter = ds.findAndModify(query, inc, true);
 		return counter.getCounter();
 	}
