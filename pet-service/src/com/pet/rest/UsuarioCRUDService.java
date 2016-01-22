@@ -75,7 +75,7 @@ public class UsuarioCRUDService{
 			bean.saveOrUpdate(dao,usuario);
 			msg = ServiceConstants.SUCCESS;
 		}else{
-			msg = ServiceConstants.USER_NO_FOUND;
+			msg = ServiceConstants.NOT_FOUND;
 		}
 		return Response.ok(msg).build();
 	}

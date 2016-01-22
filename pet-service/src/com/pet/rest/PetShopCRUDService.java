@@ -13,11 +13,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.pet.constants.DBConstants;
+import com.pet.constants.ServiceConstants;
 import com.pet.ejbs.CrudSessionBean;
+//github.com/rapzodo/horadatosa.git
 import com.pet.mongo.db.dao.BaseMongoDao;
 import com.pet.mongo.db.factory.DaoFactory;
 import com.pet.mongo.morphia.entities.DomainSuperClass;
 import com.pet.mongo.morphia.entities.PetShop;
+import com.pet.mongo.morphia.entities.Servico;
 
 @SuppressWarnings("unchecked")
 @Path("/petshops")
@@ -26,6 +29,7 @@ public class PetShopCRUDService{
 	@EJB
 	protected CrudSessionBean bean;
 	private BaseMongoDao<DomainSuperClass> dao= new DaoFactory<DomainSuperClass>().getDao(PetShop.class);
+	private BaseMongoDao<DomainSuperClass> svcDao= new DaoFactory<DomainSuperClass>().getDao(Servico.class);
 	
 	
 	@GET
@@ -65,6 +69,27 @@ public class PetShopCRUDService{
 			message = DBConstants.SUCCESS_DELETED;
 		}
 		return Response.ok(message).build();
+	}
+	
+	@Path("addServico/{_id}")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response save(Servico servico,@PathParam("_id")String userId){
+		PetShop petshop = (PetShop) dao.getById(userId);
+		String msg = ServiceConstants.FAIL_MESSAGE;
+		if(petshop != null){
+//			IF NEW SERVICO
+			if(servico.get_id() == 0){
+				petshop.getServicos().add(servico);
+			}
+			bean.saveOrUpdate(svcDao,servico);
+			bean.saveOrUpdate(dao,petshop);
+			msg = ServiceConstants.SUCCESS;
+		}else{
+			msg = ServiceConstants.NOT_FOUND;
+		}
+		return Response.ok(msg).build();
 	}
 	
 }

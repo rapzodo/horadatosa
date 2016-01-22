@@ -1,6 +1,5 @@
 package com.pet.rest;
 
-import java.util.Calendar;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -20,6 +19,8 @@ import com.pet.mongo.db.factory.DaoFactory;
 import com.pet.mongo.morphia.entities.Agendamento;
 import com.pet.mongo.morphia.entities.DomainSuperClass;
 import com.pet.mongo.morphia.entities.PetShop;
+import com.pet.mongo.morphia.entities.Servico;
+import com.pet.mongo.morphia.entities.Usuario;
 
 @SuppressWarnings("unchecked")
 @Path("/agendamentos")
@@ -29,6 +30,8 @@ public class AgendamentosService{
 	protected CrudSessionBean bean;
 	private BaseMongoDao<DomainSuperClass> dao= new DaoFactory<DomainSuperClass>().getDao(Agendamento.class);
 	private BaseMongoDao<DomainSuperClass> petDao= new DaoFactory<DomainSuperClass>().getDao(PetShop.class);
+	private BaseMongoDao<DomainSuperClass> userDao= new DaoFactory<DomainSuperClass>().getDao(Usuario.class);
+	private BaseMongoDao<DomainSuperClass> srvDao= new DaoFactory<DomainSuperClass>().getDao(Servico.class);
 	
 	
 	@GET
@@ -55,8 +58,8 @@ public class AgendamentosService{
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response save(Agendamento Agendamento){
-		return Response.ok(bean.saveOrUpdate(dao,Agendamento)).build();
+	public Response save(Agendamento agendamento){
+		return Response.ok(bean.saveOrUpdate(dao,agendamento)).build();
 	}
 	
 	@Path("remove/{id}")
@@ -70,30 +73,11 @@ public class AgendamentosService{
 		return Response.ok(message).build();
 	}
 	
-	@Path("horarios/{serviceId}/{initDateTime}/{finalDateTime}")
 	@GET
+	@Path("petshop/{_id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<PetShop> getPetShopsComHorario(@PathParam("serviceId")String serviceId,
-			@PathParam("initDateTime")String initDateTime, 
-			@PathParam("finalDateTime") String finalDateTime){
-		Calendar initDt = Calendar.getInstance();
-		Calendar finalDt = Calendar.getInstance();
-		bean.getPetShopsComHorario(dao,serviceId, initDt.getTime(), finalDt.getTime());
-		return null;
+	public List<Agendamento> getAgendamentoByPetShop(@PathParam("_id")String id){
+		return (List<Agendamento>) bean.getByField(dao, "petShop", Long.valueOf(id));
 	}
-	@Path("horarios/{serviceId}")
-	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public List<PetShop> testeData(@PathParam("serviceId")String serviceId,
-			String rangeDate){
-		System.out.println(rangeDate);
-		Calendar initDt = Calendar.getInstance();
-		Calendar finalDt = Calendar.getInstance();
-		bean.getPetShopsComHorario(petDao,serviceId, initDt.getTime(), finalDt.getTime());
-		return null;
-	}
-	
-	
 	
 }

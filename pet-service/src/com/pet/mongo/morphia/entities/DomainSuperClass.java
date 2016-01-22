@@ -3,6 +3,7 @@ package com.pet.mongo.morphia.entities;
 import java.util.Date;
 
 import org.mongodb.morphia.annotations.Id;
+import org.mongodb.morphia.annotations.PrePersist;
 import org.mongodb.morphia.annotations.Version;
 
 public class DomainSuperClass {
@@ -11,7 +12,8 @@ public class DomainSuperClass {
 	private long _id;
 	@Version("version")
 	private long version;
-	private Date dateCadastro = new Date();
+	private Date dateCadastro;
+	private Date lastUpate;
 
 	public long getVersion() {
 		return version;
@@ -36,7 +38,19 @@ public class DomainSuperClass {
 	public void set_id(long _id) {
 		this._id = _id;
 	}
+
+	public Date getLastUpate() {
+		return lastUpate;
+	}
+
+	public void setLastUpate(Date lastUpate) {
+		this.lastUpate = lastUpate;
+	}
 	
+	@PrePersist
+	public void prePersist(){
+		lastUpate = new Date();
+	}
 	
 
 }

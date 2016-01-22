@@ -20,6 +20,7 @@ public class BaseMongoDao<MODEL> {
 	private Class<?> classe;
 	private Datastore ds;
 	
+	
 	public BaseMongoDao (){
 	}
 	
@@ -28,6 +29,14 @@ public class BaseMongoDao<MODEL> {
 		ds = MorphiaDS.getinstance().getDataStore();
 	}
 
+	public Datastore getDs() {
+		return ds;
+	}
+
+	public void setDs(Datastore ds) {
+		this.ds = ds;
+	}
+	
 	public long save(MODEL model){
 		return (long) ds.save(model).getId();
 	}
@@ -71,7 +80,7 @@ public class BaseMongoDao<MODEL> {
 		return (List<MODEL>) ds.createQuery(classe).field(fieldName).greaterThan(value).asList();
 	}
 	
-	public List<MODEL> getModelByfield(String fieldName,String value){
+	public List<MODEL> getModelByfield(String fieldName,Object value){
 		return (List<MODEL>) ds.createQuery(classe).field(fieldName).equal(value).asList();
 	}
 	public List<MODEL> getModelByFilter(String filter,Object value){
@@ -91,10 +100,11 @@ public class BaseMongoDao<MODEL> {
 		return null;
 	}
 	
-	public List<MODEL> getByDateRange(Date inDt, Date endDt){
+	public List<MODEL> getByDateRange(String DateFieldName, Date inDt, Date endDt){
 		return (List<MODEL>) ds.createQuery(classe)
-				.field("horariosDisponiveis").greaterThanOrEq(inDt)
-				.field("horariosDisponiveis").lessThanOrEq(endDt).asList();
+				.field(DateFieldName).greaterThanOrEq(inDt)
+				.field(DateFieldName).lessThanOrEq(endDt).asList();
 	}
+	
 	
 }
