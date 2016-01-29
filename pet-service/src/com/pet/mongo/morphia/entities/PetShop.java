@@ -10,7 +10,7 @@ import org.mongodb.morphia.annotations.Reference;
 import org.mongodb.morphia.utils.IndexType;
 
 @Entity(noClassnameStored=true,value="petshops")
-@Indexes(@Index(fields={@Field(value="_id"),@Field(value="cnpj"),@Field(value="dataCadastro", type=IndexType.DESC)}))
+@Indexes(@Index(fields={@Field(value="_id"),@Field(value="cpfCnpj"),@Field(value="dateCadastro", type=IndexType.DESC)}))
 public class PetShop extends DomainSuperClass{
 	
 	private String cpfCnpj;
@@ -21,6 +21,9 @@ public class PetShop extends DomainSuperClass{
 	@Reference(lazy=true,idOnly=true)
 	private List<Servico> servicos;
 	private Endereco endereco;
+	private String horarioAbertura;
+	private String horarioFechamento;
+	private List<Integer> diasFuncionamento;
 	
 	public String getRazaoSocial() {
 		return razaoSocial;
@@ -57,5 +60,23 @@ public class PetShop extends DomainSuperClass{
 	}
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
+	}
+	public String getHorarioAbertura() {
+		return horarioAbertura;
+	}
+	public void setHorarioAbertura(String horarioAbertura) {
+		this.horarioAbertura = horarioAbertura;
+	}
+	public String getHorarioFechamento() {
+		return horarioFechamento;
+	}
+	public void setHorarioFechamento(String horarioFechamento) {
+		this.horarioFechamento = horarioFechamento;
+	}
+	public List<Integer> getDiasFuncionamento() {
+		return diasFuncionamento;
+	}
+	public void setDiasFuncionamento(List<Integer> diasFuncionamento) {
+		this.diasFuncionamento = diasFuncionamento;
 	}
 }

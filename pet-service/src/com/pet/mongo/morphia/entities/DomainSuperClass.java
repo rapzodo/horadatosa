@@ -13,7 +13,7 @@ public class DomainSuperClass {
 	@Version("version")
 	private long version;
 	private Date dateCadastro;
-	private Date lastUpate;
+	private Date lastUpdate;
 
 	public long getVersion() {
 		return version;
@@ -39,18 +39,18 @@ public class DomainSuperClass {
 		this._id = _id;
 	}
 
-	public Date getLastUpate() {
-		return lastUpate;
+
+	public Date getLastUpdate() {
+		return lastUpdate;
 	}
 
-	public void setLastUpate(Date lastUpate) {
-		this.lastUpate = lastUpate;
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
 	}
 	
 	@PrePersist
 	public void prePersist(){
-		lastUpate = new Date();
+		lastUpdate = new Date();
 	}
-	
 
 }

@@ -10,7 +10,7 @@ import org.mongodb.morphia.annotations.Reference;
 import org.mongodb.morphia.utils.IndexType;
 
 @Entity(value="usuarios",noClassnameStored=true)
-@Indexes(@Index(fields={@Field(value="_id"),@Field(value="nome"),@Field(value="dataCadastro", type=IndexType.DESC)}))
+@Indexes(@Index(fields={@Field(value="_id"),@Field(value="nome"),@Field(value="dateCadastro", type=IndexType.DESC)}))
 public class Usuario extends DomainSuperClass{
 
 	private String emailId;

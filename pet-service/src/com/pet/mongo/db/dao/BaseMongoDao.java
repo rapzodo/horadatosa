@@ -3,12 +3,14 @@ package com.pet.mongo.db.dao;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 
 import com.pet.constants.QueriesConstants;
+import com.pet.constants.ServiceConstants;
 import com.pet.mongo.morphia.db.MorphiaDS;
 import com.pet.mongo.morphia.entities.DomainSuperClass;
 import com.pet.mongo.morphia.entities.Sequence;
@@ -59,6 +61,11 @@ public class BaseMongoDao<MODEL> {
 		return query.asList();
 	}
 	
+	public List<MODEL> getByRegex(String field, String value){
+		Pattern pattern = Pattern.compile(value, Pattern.CASE_INSENSITIVE);
+		return getModelByFilter(field, pattern);
+	}
+	
 	
 	public List<MODEL> getModelByQuery(Query<MODEL> query){
 		return (List<MODEL>) query.asList();
@@ -92,18 +99,43 @@ public class BaseMongoDao<MODEL> {
 		return ds.delete(model).getN();
 	}
 
-	public long saveOrUpdate(DomainSuperClass domain) {
-		return save((MODEL)domain);
+	public long saveOrUpdate(MODEL model) {
+		if(model instanceof DomainSuperClass){
+			
+			DomainSuperClass domain = (DomainSuperClass) model;
+			String id = String.valueOf(domain.get_id());
+			if(getById(id) == null ){
+				domain.set_id(getCounterSeq());
+				domain.setDateCadastro(new Date());
+			}
+			return save((MODEL)domain);
+		}
+		return -1;
 	}
 	
-	public List<MODEL> getByComplexQueryAnd(Map<String, String> fieldValuePairs){
-		return null;
+	public List<MODEL> getByComplexQueryAnd(Map<String, Object> fieldValuePairs){
+		Query<?> query = ds.createQuery(classe);
+		for(String key : fieldValuePairs.keySet()){
+			query.field(key).equal(fieldValuePairs.get(key));
+		}
+		System.out.println(query);
+		return (List<MODEL>) query.asList();
 	}
 	
 	public List<MODEL> getByDateRange(String DateFieldName, Date inDt, Date endDt){
 		return (List<MODEL>) ds.createQuery(classe)
 				.field(DateFieldName).greaterThanOrEq(inDt)
 				.field(DateFieldName).lessThanOrEq(endDt).asList();
+	}
+	
+	public List<MODEL> getAllOnlyFields(String fieldsQuery){
+	    	String[] fields = fieldsQuery.split(ServiceConstants.QUERY_SEPARATOR);
+	    	Query<?> query = ds.createQuery(classe);
+	    	if(fields.length > 0){
+	    		query.retrievedFields(true, fields);
+	    	}else
+	    		query.retrievedFields(true, fieldsQuery);
+		return (List<MODEL>) query.asList();
 	}
 	
 	
