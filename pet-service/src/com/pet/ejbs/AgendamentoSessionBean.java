@@ -11,10 +11,14 @@ import javax.ejb.Stateless;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 
-import com.pet.mongo.db.dao.BaseMongoDao;
+import com.pet.mongo.db.dao.AgendamentoDao;
+import com.pet.mongo.db.dao.PetShopDao;
+import com.pet.mongo.db.dao.ServicoDao;
+import com.pet.mongo.db.dao.ServicosPetShopDao;
 import com.pet.mongo.morphia.entities.Agendamento;
 import com.pet.mongo.morphia.entities.PetShop;
 import com.pet.mongo.morphia.entities.Servico;
+import com.pet.mongo.morphia.entities.ServicosPetShops;
 
 /**
  * Session Bean implementation class AgendamentoBean
@@ -23,9 +27,10 @@ import com.pet.mongo.morphia.entities.Servico;
 @LocalBean
 public class AgendamentoSessionBean{
 	
-	private BaseMongoDao<Agendamento> dao = new BaseMongoDao<Agendamento>(Agendamento.class);
-	private BaseMongoDao<PetShop> petDao = new BaseMongoDao<PetShop>(PetShop.class);
-	private BaseMongoDao<Servico> servDao = new BaseMongoDao<Servico>(Servico.class);
+	private AgendamentoDao dao = new AgendamentoDao();
+	private PetShopDao petDao = new PetShopDao();
+	private ServicoDao servDao = new ServicoDao();
+	private ServicosPetShopDao servPetDao = new ServicosPetShopDao();
 
     public boolean estaDentroDoHorarioDeFuncionamento(DateTime dataSelecionada, PetShop petshop){
     	String[] horaIni = petshop.getHorarioAbertura().split(":");
@@ -46,25 +51,38 @@ public class AgendamentoSessionBean{
     public List<PetShop> getPetShopsDisponiveis(String dataSelecionada, String servicoId,
     		String UF,String cidade, String bairro){
     	DateTime data = DateTime.parse(dataSelecionada);
-    	Map<String,Object> petShopParams = new HashMap<String, Object>();
     	Servico servico = servDao.getById(servicoId);
-    	petShopParams.put("servicos", servico);
-    	petShopParams.put("endereco.cidade", cidade);
-    	petShopParams.put("endereco.bairro", bairro);
-    	petShopParams.put("endereco.UF", UF);
-    	List<PetShop> petshops = petDao.getByComplexQueryAnd(petShopParams);
+    	List<PetShop> petshops = petDao.getPetShopsByEndereco(cidade, bairro, UF);
     	List<PetShop> petshopsDisp = new ArrayList<PetShop>();
-    	Map<String,Object> agendamentoParams = new HashMap<String, Object>();
     	for (PetShop petShop : petshops) {
-			agendamentoParams.put("petShop", petShop.get_id());
-			agendamentoParams.put("dataAgendamento", data.toDate());
-			List<Agendamento> agendamentos = dao.getByComplexQueryAnd(agendamentoParams);
-			if(agendamentos != null && agendamentos.size() == 0){
+			if(checkIfAppointmentExistsAndHasCapacity(data,servico,petShop) && 
+					checkIfPetShopOffersService(petShop,servico) 
+					&& estaDentroDoHorarioDeFuncionamento(data, petShop)){
 				petshopsDisp.add(petShop);
 			}
 		}
 		return petshopsDisp;
     }
+
+	public boolean checkIfPetShopOffersService(PetShop petShop, Servico servico) {
+		return servPetDao.getServicosByPetShopAndServico(petShop, servico) != null;
+	}
+
+	public Boolean checkIfAppointmentExistsAndHasCapacity(DateTime data,
+			Servico servico, PetShop petShop) {
+		List<Agendamento> agendamentos = dao.getAppointments(data, servico, petShop);
+		if(agendamentos == null){
+			return true;
+		}else{
+			return checkServiceCapacity(petShop, servico, agendamentos.size());
+		}
+	}
+
+	public Boolean checkServiceCapacity(PetShop petshop, Servico servico, int agendamentos){
+		ServicosPetShops servicoPetshop = servPetDao.getServicosByPetShopAndServico(petshop, servico);
+		return servicoPetshop.getCapacidade() > agendamentos;
+	}
+    
     public List<PetShop> getPetShopsDisponiveisByCep(String cep){
     	return petDao.getModelByfield("cep", cep);
     }

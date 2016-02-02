@@ -15,40 +15,30 @@ import org.joda.time.DateTime;
 
 import com.google.gson.JsonArray;
 import com.pet.constants.ServiceConstants;
-import com.pet.mongo.db.dao.BaseMongoDao;
+import com.pet.mongo.db.dao.PetShopDao;
+import com.pet.mongo.db.dao.ServicosPetShopDao;
+import com.pet.mongo.db.dao.UsuarioDao;
 import com.pet.mongo.morphia.entities.PetShop;
-import com.pet.mongo.morphia.entities.Servico;
+import com.pet.mongo.morphia.entities.ServicosPetShops;
 import com.pet.mongo.morphia.entities.Usuario;
 
 @Path("/petshops")
 public class PetShopCRUDService extends BaseCrudService<PetShop>{
 	
-	private BaseMongoDao<Servico> svcDao= new BaseMongoDao<>(Servico.class);
-	private BaseMongoDao<Usuario> userDao= new BaseMongoDao<>(Usuario.class);
+	private UsuarioDao userDao= new UsuarioDao();
+	private ServicosPetShopDao servPetDao = new ServicosPetShopDao();
 	
 	public PetShopCRUDService(){
-		dao = new BaseMongoDao<>(PetShop.class);
+		dao = new PetShopDao();
 	}
 	
-	@Path("addServico/{_id}")
+	@Path("addServico")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response addServico(Servico servico,@PathParam("_id")String userId){
-		PetShop petshop = (PetShop) dao.getById(userId);
-		String msg = ServiceConstants.FAIL_MESSAGE;
-		if(petshop != null){
-//			IF NEW SERVICO
-			if(servico.get_id() == 0){
-				petshop.getServicos().add(servico);
-			}
-			svcDao.saveOrUpdate(servico);
-			dao.saveOrUpdate(petshop);
-			msg = ServiceConstants.SUCCESS;
-		}else{
-			msg = ServiceConstants.NOT_FOUND;
-		}
-		return Response.ok(msg).build();
+	public Response addServico(ServicosPetShops servPet){
+		long id = servPetDao.saveOrUpdate(servPet);
+		return Response.ok(id).build();
 	}
 	
 	@Path("addCliente/{_id}")
@@ -85,5 +75,20 @@ public class PetShopCRUDService extends BaseCrudService<PetShop>{
 		}
 		Response resp = Response.ok(jsonArray.toString()).build();
 		return resp;
+	}
+	
+	@Path("servicos/{idPetShop}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<ServicosPetShops> getServicos(@PathParam("idPetShop")String id){
+		PetShop petshop = dao.getById(id);
+		return servPetDao.getServicos(petshop);
+	}
+	
+	@GET
+	@Path("cep/{cep}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<PetShop> getPetshopsByCep(@PathParam("cep")String cep){
+		return dao.getModelByfield("endereco.cep",cep);
 	}
 }

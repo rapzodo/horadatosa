@@ -13,7 +13,7 @@ import org.mongodb.morphia.utils.IndexType;
 
 @Entity(value="pedidos",noClassnameStored=true)
 @Indexes(@Index(fields={@Field(value="_id"),@Field(value="agendamento._id"),@Field(value="dataServico", type=IndexType.DESC)}))
-public class ordemServico extends DomainSuperClass {
+public class OrdemServico extends DomainSuperClass {
 	
 	@Property("itens")
 	@Reference(idOnly=true, lazy=true)

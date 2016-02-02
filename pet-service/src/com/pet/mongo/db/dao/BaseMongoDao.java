@@ -67,7 +67,10 @@ public class BaseMongoDao<MODEL> {
 	}
 	
 	
-	public List<MODEL> getModelByQuery(Query<MODEL> query){
+	public MODEL getModelByQuery(Query<MODEL> query){
+		return query.get();
+	}
+	public List<MODEL> getListByQuery(Query<MODEL> query){
 		return (List<MODEL>) query.asList();
 	}
 	

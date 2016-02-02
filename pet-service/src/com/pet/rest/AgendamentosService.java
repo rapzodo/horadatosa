@@ -32,20 +32,14 @@ public class AgendamentosService extends BaseCrudService<Agendamento>{
 	}
 	
 	@GET
-	@Path("data/{dataSelecionada}/servico/{_id}/endereco/{estado}/{cidade}/{bairro}")
+	@Path("data/{dataSelecionada}/servico/{servicoId}/endereco/{estado}/{cidade}/{bairro}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<PetShop> getAgendamentoByServicoEndereco(@PathParam("dataSelecionada")String dataSelecionada,
-			@PathParam("_id")String id,
+			@PathParam("servicoId")String servicoId,
 			@PathParam("estado")String UF,
 			@PathParam("cidade")String cidade,
 			@PathParam("bairro")String bairro){
-		return (List<PetShop>) bean.getPetShopsDisponiveis(dataSelecionada,id,UF, cidade, bairro);
-	}
-	@GET
-	@Path("cep/{cep}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<PetShop> getAgendamentoByCep(@PathParam("cep")String cep){
-		return (List<PetShop>) bean.getPetShopsDisponiveisByCep(cep);
+		return (List<PetShop>) bean.getPetShopsDisponiveis(dataSelecionada,servicoId,UF, cidade, bairro);
 	}
 	
 }

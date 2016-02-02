@@ -11,16 +11,13 @@ import org.mongodb.morphia.utils.IndexType;
 
 @Entity(noClassnameStored=true,value="petshops")
 @Indexes(@Index(fields={@Field(value="_id"),@Field(value="cpfCnpj"),@Field(value="dateCadastro", type=IndexType.DESC)}))
-public class PetShop extends DomainSuperClass{
+public class PetShop extends UsuarioSistema{
 	
 	private String cpfCnpj;
 	private String razaoSocial;
 	@Reference(lazy=true,idOnly=true)
 	private List<Usuario> clientes;
 	private boolean adimplente;
-	@Reference(lazy=true,idOnly=true)
-	private List<Servico> servicos;
-	private Endereco endereco;
 	private String horarioAbertura;
 	private String horarioFechamento;
 	private List<Integer> diasFuncionamento;
@@ -48,18 +45,6 @@ public class PetShop extends DomainSuperClass{
 	}
 	public void setAdimplente(boolean adimplente) {
 		this.adimplente = adimplente;
-	}
-	public List<Servico> getServicos() {
-		return servicos;
-	}
-	public void setServicos(List<Servico> servicos) {
-		this.servicos = servicos;
-	}
-	public Endereco getEndereco() {
-		return endereco;
-	}
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
 	}
 	public String getHorarioAbertura() {
 		return horarioAbertura;
