@@ -40,7 +40,7 @@ public class BaseMongoDao<MODEL> {
 	}
 	
 	public long save(MODEL model){
-		return (long) ds.save(model).getId();
+		return (Long) ds.save(model).getId();
 	}
 
 	public long getCounterSeq() {

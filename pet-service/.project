@@ -3,6 +3,7 @@
 	<name>pet-service</name>
 	<comment></comment>
 	<projects>
+		<project>horadatosa_persistence</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

@@ -10,7 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.pet.ejbs.AgendamentoSessionBean;
-import com.pet.mongo.db.dao.BaseMongoDao;
+import com.pet.mongo.db.dao.AgendamentoDao;
 import com.pet.mongo.morphia.entities.Agendamento;
 import com.pet.mongo.morphia.entities.PetShop;
 
@@ -21,7 +21,7 @@ public class AgendamentosService extends BaseCrudService<Agendamento>{
 	protected AgendamentoSessionBean bean;
 	
 	public AgendamentosService(){
-		dao = new BaseMongoDao<>(Agendamento.class);
+		dao = new AgendamentoDao();
 	}
 	
 	@GET
