@@ -1,14 +1,20 @@
 package com.pet.mongo.morphia.entities;
 
+import java.io.Serializable;
+
 import org.mongodb.morphia.annotations.Embedded;
 
 @Embedded
-public class Endereco {
+public class Endereco implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8682794728346343634L;
 	private String rua;
 	private String cidade;
 	private String bairro;
-	private String UF;
+	private String uf;
 	private String cep;
 	
 	public String getRua() {
@@ -29,17 +35,17 @@ public class Endereco {
 	public void setBairro(String bairro) {
 		this.bairro = bairro;
 	}
-	public String getUF() {
-		return UF;
-	}
-	public void setUF(String uF) {
-		UF = uF;
-	}
 	public String getCep() {
 		return cep;
 	}
 	public void setCep(String cep) {
 		this.cep = cep;
+	}
+	public String getUf() {
+		return uf;
+	}
+	public void setUf(String uf) {
+		this.uf = uf;
 	}
 	
 	

@@ -15,6 +15,10 @@ import org.mongodb.morphia.utils.IndexType;
 @Indexes(@Index(fields={@Field(value="_id"),@Field(value="agendamento._id"),@Field(value="dataServico", type=IndexType.DESC)}))
 public class OrdemServico extends DomainSuperClass {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5409591338565274848L;
 	@Property("itens")
 	@Reference(idOnly=true, lazy=true)
 	private List<Servico> servicosPrestados;

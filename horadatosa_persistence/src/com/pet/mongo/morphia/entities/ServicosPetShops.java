@@ -10,6 +10,10 @@ import org.mongodb.morphia.annotations.Reference;
 @Indexes(@Index(fields={@Field(value="_id"),@Field(value="petshop._id"),@Field(value="servico._id")}))
 public class ServicosPetShops extends DomainSuperClass {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3592764028781079860L;
 	@Reference(idOnly=true)
 	private PetShop petshop;
 	@Reference(idOnly=true)

@@ -1,10 +1,16 @@
 package com.pet.mongo.morphia.entities;
 
+import java.io.Serializable;
+
 import org.mongodb.morphia.annotations.Embedded;
 
 @Embedded
-public class Caracteristicas {
+public class Caracteristicas implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8091826497975986895L;
 	private String pelo;
 	private String cor;
 	private String porte;

@@ -1,13 +1,18 @@
 package com.pet.mongo.morphia.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.PrePersist;
 import org.mongodb.morphia.annotations.Version;
 
-public class DomainSuperClass {
+public class DomainSuperClass implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2028232518111788326L;
 	@Id
 	private long _id;
 	@Version("version")

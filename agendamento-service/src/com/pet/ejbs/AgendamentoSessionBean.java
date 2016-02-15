@@ -31,12 +31,17 @@ public class AgendamentoSessionBean{
 	private ServicosPetShopDao servPetDao = new ServicosPetShopDao();
 
     public boolean estaDentroDoHorarioDeFuncionamento(DateTime dataSelecionada, PetShop petshop){
-    	String[] horaIni = petshop.getHorarioAbertura().split(":");
-    	String[] horaFinal = petshop.getHorarioFechamento().split(":");
-    	LocalTime ini = new LocalTime(Integer.valueOf(horaIni[0]), Integer.valueOf(horaIni[1]));
-    	LocalTime end = new LocalTime(Integer.valueOf(horaFinal[0]), Integer.valueOf(horaFinal[1]));
-    	LocalTime horaSelecionada = new LocalTime(dataSelecionada.getHourOfDay(), dataSelecionada.getMinuteOfHour());
-    	return horaSelecionada.isAfter(ini) && horaSelecionada.isBefore(end);
+    	if(petshop.getHorarioAbertura() != null && petshop.getHorarioFechamento() != null
+    			|| !petshop.getHorarioAbertura().isEmpty() && !petshop.getHorarioFechamento().isEmpty()){
+    		String[] horaIni = petshop.getHorarioAbertura().split(":");
+    		String[] horaFinal = petshop.getHorarioFechamento().split(":");
+    		LocalTime ini = new LocalTime(Integer.valueOf(horaIni[0]), Integer.valueOf(horaIni[1]));
+    		LocalTime end = new LocalTime(Integer.valueOf(horaFinal[0]), Integer.valueOf(horaFinal[1]));
+    		LocalTime horaSelecionada = new LocalTime(dataSelecionada.getHourOfDay(), dataSelecionada.getMinuteOfHour());
+    		return horaSelecionada.isAfter(ini) && horaSelecionada.isBefore(end);
+    	}else{
+    		throw new NullPointerException("Hora de Abertura/Fechamento nao pode ser nulo");
+    	}
     }
     
     public List<Agendamento> getAgendamentosByPetShop(String petShopId){

@@ -14,6 +14,10 @@ import org.mongodb.morphia.utils.IndexType;
 @Indexes(@Index(fields={@Field(value="_id"),@Field(value="nome"),@Field(value="dateCadastro", type=IndexType.DESC)}))
 public class Usuario extends UsuarioSistema{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -397146575365864915L;
 	private String nome;
 	private String celular;
 	private Date dataNascimento;

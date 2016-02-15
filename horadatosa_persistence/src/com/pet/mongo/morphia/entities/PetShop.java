@@ -13,6 +13,10 @@ import org.mongodb.morphia.utils.IndexType;
 @Indexes(@Index(fields={@Field(value="_id"),@Field(value="cpfCnpj"),@Field(value="dateCadastro", type=IndexType.DESC)}))
 public class PetShop extends UsuarioSistema{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4719950390811670176L;
 	private String cpfCnpj;
 	private String razaoSocial;
 	@Reference(lazy=true,idOnly=true)

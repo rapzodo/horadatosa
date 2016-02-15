@@ -8,6 +8,10 @@ import org.mongodb.morphia.utils.IndexType;
 @Indexes(@Index(fields=@Field(value="location", type=IndexType.GEO2D)))
 public class UsuarioSistema extends DomainSuperClass {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7917921256091335248L;
 	private String emailId;
 	private String telefone;
 	private String imagem;

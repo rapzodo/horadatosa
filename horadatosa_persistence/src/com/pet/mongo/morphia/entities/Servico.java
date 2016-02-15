@@ -9,6 +9,10 @@ import org.mongodb.morphia.annotations.Indexes;
 @Indexes(@Index(fields={@Field(value="_id")}))
 public class Servico extends DomainSuperClass {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5190526342006801857L;
 	private String categoria;
 	private String descricao;
 	

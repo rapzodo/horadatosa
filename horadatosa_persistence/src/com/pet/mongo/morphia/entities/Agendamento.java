@@ -14,6 +14,10 @@ import org.mongodb.morphia.utils.IndexType;
 		@Field(value="cliente._id"),@Field(value="dataAgendamento", type=IndexType.DESC)}))
 public class Agendamento extends DomainSuperClass {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8734128324515039934L;
 	@Reference(idOnly=true)
 	private PetShop petShop;
 	@Reference(idOnly=true)
