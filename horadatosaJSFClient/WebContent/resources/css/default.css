@@ -1,0 +1,21 @@
+@CHARSET "ISO-8859-1"; 
+
+.ui-widget, .ui-widget .ui-widget {
+    font-size: 95% !important;
+ }
+.ui-layout-north {
+		z-index:20 !important;
+		overflow:visible !important;
+	}
+.ui-layout-north .ui-layout-unit-content {
+	overflow:visible !important;
+}
+.custom{
+	border:0 none !important;
+}
+.centerMargin10{
+	margin:0% 10% !important;
+}
+.centerMargin40{
+	margin: 0% 40% !important;
+}

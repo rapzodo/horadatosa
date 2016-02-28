@@ -1,0 +1,56 @@
+<!DOCTYPE XHTML>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/template/main_template.xhtml">
+	<ui:define name="content">
+	<h:form id="petshopsListForm">
+		<p:messages id="msgs"/>
+		<p:dataTable value="#{petBean.petshops}" var="shop" editable="true" id="petshopsListTb">
+			<f:facet name="header">
+				PetShops
+			</f:facet>
+			<p:ajax event="rowEdit" listener="#{petBean.edit}" update=":petshopsListForm:petshopsListTb :petshopsListForm:msgs" />
+       		<p:ajax event="rowEditCancel" listener="#{petBean.cancel}" update=":petshopsListForm:petshopsListTb :petshopsListForm:msgs" />
+				<p:column headerText="Id">
+					<h:outputText value="#{shop._id}"/>
+				</p:column>
+				<p:column headerText="Razao Social">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{shop.razaoSocial}"/>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{shop.razaoSocial}"/>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Email">
+					<h:outputText value="#{shop.emailId}"/>
+				</p:column>
+				<p:column headerText="TeleFone">
+					<h:outputText value="#{shop.telefone}"/>
+				</p:column>
+				<p:column headerText="Aberto">
+					<h:outputText value="#{shop.horarioAbertura}"/>
+				</p:column>
+				<p:column headerText="Fechado">
+					<h:outputText value="#{shop.horarioFechamento}"/>
+				</p:column>
+				<p:column headerText="UF">
+					<h:outputText value="#{shop.endereco.uf}"/>
+				</p:column>
+				<p:column headerText="cep">
+					<h:outputText value="#{shop.endereco.cep}"/>
+				</p:column>
+				<p:column headerText="#{msg.acoes}" style="width:4%" >
+					<p:rowEditor/>
+				</p:column>
+		</p:dataTable>
+	</h:form>
+	</ui:define>
+</ui:composition>
+</html>

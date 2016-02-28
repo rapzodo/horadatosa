@@ -1,0 +1,47 @@
+<!DOCTYPE XHTML>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+
+<f:loadBundle basename="resources.application" var="msg"/>
+
+<h:head>
+    <h:title><ui:insert name="titulo">#{msg.welcomeTitle}</ui:insert></h:title>
+		<f:facet name="last">
+			<h:outputStylesheet library="css" name="default.css"  />
+			<h:outputScript library="js" name="locale-primefaces.js"  />
+		</f:facet>
+</h:head>
+<h:body>
+	<p:layout fullPage="true">
+		<p:layoutUnit position="north" styleClass="custom">
+		<h:form>
+			<p:menubar autoDisplay="false">
+					<p:menuitem value="Home" outcome="/index" icon="ui-icon-home"/>
+					<p:submenu label="#{msg.petshops}">
+						<p:menuitem value="#{msg.cadastrar}" outcome="/petshops/cadastrar"></p:menuitem>
+						<p:menuitem value="#{msg.listar}" outcome="/petshops/listar"></p:menuitem>
+					</p:submenu>
+					<p:submenu label="#{msg.clientes}">
+						<p:menuitem value="#{msg.cadastrar}" outcome="/petshops/cadastrar"></p:menuitem>
+						<p:menuitem value="#{msg.listar}" outcome="/petshops/cadastrar"></p:menuitem>
+					</p:submenu>
+					<p:submenu label="#{msg.gerenciar}"  icon="ui-icon-gear">
+						<p:menuitem value="#{msg.clientes}" outcome="/petshops/cadastrar"/>
+					</p:submenu>
+			</p:menubar>
+		</h:form>
+			<ui:insert name="menuBar" />
+		</p:layoutUnit>
+		<p:layoutUnit position="center" styleClass="custom">
+			<ui:insert name="content" />
+		</p:layoutUnit>
+		<p:layoutUnit position="south" styleClass="custom">
+			<ui:insert name="footer" />
+		</p:layoutUnit>
+	</p:layout>
+</h:body>
+</html>
