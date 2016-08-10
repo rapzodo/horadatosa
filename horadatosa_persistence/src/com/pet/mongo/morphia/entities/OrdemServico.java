@@ -19,7 +19,6 @@ public class OrdemServico extends DomainSuperClass {
 	 * 
 	 */
 	private static final long serialVersionUID = 5409591338565274848L;
-	@Property("itens")
 	@Reference(idOnly=true, lazy=true)
 	private List<Servico> servicosPrestados;
 	@Property("realizadoEm")

@@ -10,6 +10,10 @@ import org.mongodb.morphia.annotations.Reference;
 @Indexes(@Index(fields={@Field(value="_id"),@Field(value="nome"),@Field(value="raca")}))
 public class Animal extends DomainSuperClass {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2932486028693819217L;
 	private String nome;
 	private String tipo;
 	private String raca;

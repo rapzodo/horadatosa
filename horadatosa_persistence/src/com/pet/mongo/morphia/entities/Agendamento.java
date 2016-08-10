@@ -10,7 +10,7 @@ import org.mongodb.morphia.annotations.Reference;
 import org.mongodb.morphia.utils.IndexType;
 
 @Entity(value="agendamentos",noClassnameStored=true)
-@Indexes(@Index(fields={@Field(value="_id"),@Field(value="petshop._id"),
+@Indexes(@Index(fields={@Field(value="_id"),
 		@Field(value="cliente._id"),@Field(value="dataAgendamento", type=IndexType.DESC)}))
 public class Agendamento extends DomainSuperClass {
 	

@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 
+import com.api.morphia.dao.BaseMongoDao;
+import com.pet.mongo.db.PetDbConfig;
 import com.pet.mongo.morphia.entities.Agendamento;
 import com.pet.mongo.morphia.entities.PetShop;
 import com.pet.mongo.morphia.entities.Servico;
@@ -13,7 +15,7 @@ import com.pet.mongo.morphia.entities.Servico;
 public class AgendamentoDao extends BaseMongoDao<Agendamento>{
 
 	public AgendamentoDao(){
-		super(Agendamento.class);
+		super(Agendamento.class, PetDbConfig.getDs(false));
 	}
 	
 	public List<Agendamento> getAppointments(DateTime data, Servico servico,
