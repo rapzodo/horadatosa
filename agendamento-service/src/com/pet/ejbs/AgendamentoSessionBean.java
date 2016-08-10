@@ -54,7 +54,7 @@ public class AgendamentoSessionBean{
     public List<PetShop> getPetShopsDisponiveis(String dataSelecionada, String servicoId,
     		String UF,String cidade, String bairro){
     	DateTime data = DateTime.parse(dataSelecionada);
-    	Servico servico = servDao.getById(servicoId);
+    	Servico servico = servDao.getById(new Long(servicoId));
     	List<PetShop> petshops = petDao.getPetShopsByEndereco(cidade, bairro, UF);
     	List<PetShop> petshopsDisp = new ArrayList<PetShop>();
     	for (PetShop petShop : petshops) {

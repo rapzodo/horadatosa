@@ -2,6 +2,7 @@
     <wb-module deploy-name="pet-service">
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
         <wb-resource deploy-path="/" source-path="/WebContent"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/.apt_src"/>
         <property name="java-output-path" value="/pet-service/build/classes"/>
         <property name="context-root" value="agendamento-service"/>
     </wb-module>

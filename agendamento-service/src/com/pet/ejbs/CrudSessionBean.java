@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
-import com.pet.mongo.db.dao.BaseMongoDao;
+import com.api.morphia.dao.BaseMongoDao;
 import com.pet.mongo.morphia.entities.DomainSuperClass;
 
 /**
@@ -46,11 +46,11 @@ public class CrudSessionBean{
 	}
 	
 	public int delete(BaseMongoDao<DomainSuperClass> dao,String id) {
-		return dao.delete(id);
+		return dao.delete(new Long(id));
 	}
 	
 	public DomainSuperClass getById(BaseMongoDao<DomainSuperClass> dao, String _id){
-		return dao.getById(_id);
+		return dao.getById(new Long(_id));
 	}
 
 }
