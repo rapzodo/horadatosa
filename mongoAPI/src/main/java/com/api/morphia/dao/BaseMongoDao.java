@@ -24,26 +24,19 @@ import com.mongodb.MongoException;
 public class BaseMongoDao<MODEL>{
 	
 	private Class<?> classe;
-	private Datastore ds;
+	public Datastore ds;
 	
 	
 	public BaseMongoDao (){
 	}
 	
-	public BaseMongoDao (Class<?> classe, Datastore ds){
-		this.classe = classe;
-		this.ds = ds;
-	}
 	public BaseMongoDao (Class<?> classe, EnvConfig config, Boolean sslClient){
 		this.classe = classe;
-		ds = new MorphiaDSBuilder().build(config, sslClient);
+		MorphiaDSBuilder morphiaDSBuilder = new MorphiaDSBuilder(config);
+		ds = morphiaDSBuilder.build(sslClient);
 	}
-
-	public Datastore getDs() {
-		return ds;
-	}
-
-	public void setDs(Datastore ds) {
+	public BaseMongoDao (Class<?> classe, Datastore ds){
+		this.classe = classe;
 		this.ds = ds;
 	}
 	

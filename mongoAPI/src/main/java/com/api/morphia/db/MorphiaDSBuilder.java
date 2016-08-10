@@ -6,7 +6,6 @@ import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
 import com.api.config.EnvConfig;
-import com.api.constants.DBConstants;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoClientOptions.Builder;
@@ -22,24 +21,14 @@ import com.mongodb.ServerAddress;
  */
 public class MorphiaDSBuilder {
 	private Morphia morphia = new Morphia();
-	private Datastore ds;
-	private String dbName = "defaultDB";
-	private String entitiesPackage = "morphia.entities";
+	private static Datastore ds;
 	private String userName;
 	private String password;
+	private EnvConfig config;
 	
 	
-	public MorphiaDSBuilder(){
-	}
-	
-	public MorphiaDSBuilder setDBName(String dbName){
-		this.dbName = dbName;
-		return this;
-	}
-	
-	public  MorphiaDSBuilder setEntitiesPackage(String entitiesPackage){
-		this.entitiesPackage = entitiesPackage;
-		return this;
+	public MorphiaDSBuilder(EnvConfig config){
+		this.config = config;
 	}
 	
 	public  MorphiaDSBuilder setUsername(String username){
@@ -60,33 +49,49 @@ public class MorphiaDSBuilder {
 		if(userName == null || password == null){
 			throw new NullPointerException("username or password should not be null");
 		}
-		MongoCredential shaCredential = MongoCredential.createScramSha1Credential(userName, dbName, 
+		MongoCredential shaCredential = MongoCredential.createScramSha1Credential(userName, config.getDbName(), 
 				password.toCharArray());
 		Builder builder = MongoClientOptions.builder();
-//		TIMEOUT
-		builder.connectTimeout(DBConstants.TIME_OUT)
-		.socketTimeout(DBConstants.TIME_OUT)
-		.serverSelectionTimeout(DBConstants.TIME_OUT)
 //		ENABLING SSL
-		.sslEnabled(true)
+		builder.sslEnabled(true)
+		.sslInvalidHostNameAllowed(true);
+		return new MongoClient(new ServerAddress(environment.getServer(), environment.getPort()), Arrays.asList(shaCredential), builder.build());
+	}
+	
+	private MongoClient getSSLClient(EnvConfig environment,Builder builder){
+		if(userName == null || password == null){
+			throw new NullPointerException("username or password should not be null");
+		}
+		MongoCredential shaCredential = MongoCredential.createScramSha1Credential(userName, config.getDbName(), 
+				password.toCharArray());
+//		ENABLING SSL
+		builder.sslEnabled(true)
 		.sslInvalidHostNameAllowed(true);
 		return new MongoClient(new ServerAddress(environment.getServer(), environment.getPort()), Arrays.asList(shaCredential), builder.build());
 	}
 	
 	public void config(MongoClient client){
-		morphia.mapPackage(entitiesPackage);
-		ds = morphia.createDatastore(client, dbName);
+		morphia.mapPackage(config.getEntitiesPackage());
+		ds = morphia.createDatastore(client, config.getDbName());
 		ds.ensureIndexes();
 	}
 	
-	public Datastore build(EnvConfig config, Boolean isSSLClient){
+	public Datastore build(Boolean isSSLClient){
 		MongoClient client;
 		if(isSSLClient){
-			client = getSSLClient(config);
+			if(userName == null || password == null){
+				throw new RuntimeException("Username or Password can't be null for SSL Client");
+			}else{
+				client = getSSLClient(config);
+			}
 		}else{
 			client = getSimpleClient(config);
 		}
 		config(client);
+		return ds;
+	}
+	public Datastore build(Builder builder){
+		config(getSSLClient(config, builder));
 		return ds;
 	}
 }
