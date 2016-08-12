@@ -46,7 +46,7 @@ public class PetShopCRUDService extends BaseCrudService<PetShop>{
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response addUser(Usuario usuario,@PathParam("_id")String userId){
-		PetShop petshop = (PetShop) dao.getById(userId);
+		PetShop petshop = (PetShop) dao.getById(new Long(userId));
 		String msg = ServiceConstants.FAIL_MESSAGE;
 		if(petshop != null){
 //			IF NEW
@@ -67,7 +67,7 @@ public class PetShopCRUDService extends BaseCrudService<PetShop>{
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getDiasDeFuncionamento(@PathParam("idPetShop")String id){
-		PetShop petshop = (PetShop) dao.getById(id);
+		PetShop petshop = (PetShop) dao.getById(new Long(id));
 		JsonArray jsonArray = new JsonArray();
 		List<Integer> diasFuncionamento = petshop.getDiasFuncionamento();
 		for(int i =0 ; i < diasFuncionamento.size() ; i++) {
@@ -81,7 +81,7 @@ public class PetShopCRUDService extends BaseCrudService<PetShop>{
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ServicosPetShops> getServicos(@PathParam("idPetShop")String id){
-		PetShop petshop = dao.getById(id);
+		PetShop petshop = dao.getById(new Long(id));
 		return servPetDao.getServicos(petshop);
 	}
 	

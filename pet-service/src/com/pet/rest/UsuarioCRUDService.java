@@ -8,18 +8,20 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.api.morphia.dao.BaseMongoDao;
 import com.pet.constants.ServiceConstants;
-import com.pet.mongo.db.dao.BaseMongoDao;
+import com.pet.mongo.db.dao.AnimalDao;
+import com.pet.mongo.db.dao.UsuarioDao;
 import com.pet.mongo.morphia.entities.Animal;
 import com.pet.mongo.morphia.entities.Usuario;
 
 @Path("/usuarios")
 public class UsuarioCRUDService extends BaseCrudService<Usuario>{
 	
-	private BaseMongoDao<Animal> animalDao= new BaseMongoDao<>(Animal.class);
+	private BaseMongoDao<Animal> animalDao= new AnimalDao();
 	
 	public UsuarioCRUDService(){
-		dao = new BaseMongoDao<>(Usuario.class);
+		dao = new UsuarioDao();
 	}
 	
 	@Path("addPet/{_id}")
@@ -27,7 +29,7 @@ public class UsuarioCRUDService extends BaseCrudService<Usuario>{
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response save(Animal animal,@PathParam("_id")String userId){
-		Usuario usuario = (Usuario) dao.getById(userId);
+		Usuario usuario = (Usuario) dao.getById(new Long(userId));
 		String msg = ServiceConstants.FAIL_MESSAGE;
 		if(usuario != null){
 //			IF NEW ANIMAL

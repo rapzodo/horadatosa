@@ -12,8 +12,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.api.morphia.dao.BaseMongoDao;
 import com.pet.constants.DBConstants;
-import com.pet.mongo.db.dao.BaseMongoDao;
 
 public class BaseCrudService<MODEL>{
 	
@@ -36,14 +36,14 @@ public class BaseCrudService<MODEL>{
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{id}")
 	public MODEL getById(@PathParam("id") String id){
-		return (MODEL) dao.getById(id);
+		return (MODEL) dao.getById(new Long(id));
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("onlyFields/{id}")
 	public MODEL getByIdWithSelectedFields(@PathParam("id") String id){
-		return (MODEL) dao.getById(id);
+		return (MODEL) dao.getById(new Long(id));
 	}
 	
 	@Path("createUpdate")
@@ -59,7 +59,7 @@ public class BaseCrudService<MODEL>{
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response delete(@PathParam("id") String id){
 		String message = DBConstants.FAIL_MESSAGE;
-		if(dao.delete(id) > 0){
+		if(dao.delete(new Long(id)) > 0){
 			message = DBConstants.SUCCESS_DELETED;
 		}
 		return Response.ok(message).build();
@@ -69,7 +69,7 @@ public class BaseCrudService<MODEL>{
 	@Path("campos")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<MODEL> getAgendamentosField(@QueryParam("q")String fields){
-		return (List<MODEL>) dao.getAllOnlyFields(fields);
+		return (List<MODEL>) dao.getAllOnlyFields(true,fields);
 	}
 	
 }
